@@ -1,0 +1,207 @@
+/*starting page*/
+
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0px;
+  text-align: center;
+  background-color: black;
+  color: white;
+  font-size: 19px;
+  line-height: 28px;
+}
+
+.start-game {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-game a {
+  text-decoration: none;
+  color: gray;
+  background-color: black;
+  font-weight: bold;
+  padding: 18px 13px;
+  border: 2px solid gray;
+  border-radius: 8px;
+  transition: scale 2s ease-in;
+}
+
+.start-game a:hover {
+  cursor: pointer;
+  box-shadow: gray 0 5px 20px;
+  transform: scale(1.1);
+  animation: shaking 0.5s infinite;
+}
+
+@keyframes shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/*main-page*/
+
+.languages {
+  font-size: 0;
+  float: right;
+  margin-right: 15px;
+  margin-top: 8px;
+}
+
+.languages > button {
+  margin-left: -2px;
+  padding: 7px 10px;
+  background-color: black;
+  color: white;
+  border: 2px solid gray;
+}
+
+.languages > button:hover {
+  background-color: rgb(217, 214, 214);
+  color: black;
+  cursor: pointer;
+}
+
+.languages > .activeButton {
+  background-color: gray;
+  color: black;
+}
+
+.languages > button.ro-lang {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.languages > button.eng-lang {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+h1 {
+  display: inline-block; /*altfel vine peste buton si nu merge hover-ul*/
+  margin-left: 100px;
+  text-align: center;
+  animation: fadeInAnimation ease 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/*images section*/
+.choice {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.choice img {
+  border: 1px solid gray;
+  box-sizing: border-box;
+  width: 160px;
+  height: 160px;
+  padding: 5px;
+  object-fit: contain;
+  transition: transform 0.5s ease-in-out;
+}
+
+.choice img:hover {
+  cursor: pointer;
+  box-shadow: gray 0 5px 18px;
+  width: 180px;
+  transform-origin: left;
+  transform: scale(1.02);
+  margin: -10px;
+}
+
+.noHover {
+  pointer-events: none;
+}
+
+img.selected-by-user {
+  border: 2px solid red;
+}
+
+img.selected-by-computer {
+  border: 2px solid blue;
+}
+
+/*play again section*/
+
+.playAgain {
+  color: white;
+  background-color: black;
+  padding: 10px 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  box-shadow: gray 0 2px 15px;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.playAgain:hover {
+  box-shadow: gray 0 2px 22px;
+}
+
+.hide {
+  display: none;
+}
+
+/*score section*/
+
+.score {
+  margin: 0px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.player {
+  width: 30px;
+  height: auto;
+}
+
+.score p {
+  display: inline;
+}
+
+/*media queries*/
+@media screen and (max-width: 480px) {
+  .choice {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .choice img {
+    width: 130px;
+    height: 130px;
+  }
+}

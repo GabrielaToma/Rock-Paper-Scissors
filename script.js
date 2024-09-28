@@ -27,6 +27,31 @@ let para1 = document.querySelector(".para1");
 let para2 = document.querySelector(".para2");
 let result = document.querySelector(".result");
 
+//switching languages - english will be default
+
+langRO.addEventListener("click", function () {
+  langRO.classList.add("activeButton");
+  langEN.classList.remove("activeButton");
+
+  header.innerText = "Foarfeca, hartie, piatra?";
+  para1.innerText =
+    "Cum merge jocul: vei duce o lupta impotriva campionului nostru - computerul.";
+  para2.innerText = "Primul care ajunge la 5 puncte, castiga lupta!";
+  result.innerText = "Rezultat:";
+  playAgain.innerText = "Vrei sa mai incerci o data?";
+});
+
+langEN.addEventListener("click", function () {
+  langEN.classList.add("activeButton");
+  langRO.classList.remove("activeButton");
+  header.innerText = "Rock, paper, scissors?";
+  para1.innerText =
+    "Here's how it works: you will play with our biggest fighter - a computer.";
+  para2.innerText = "The first one to gain 5 points wins.";
+  result.innerText = "Score:";
+  playAgain.innerText = "Would you like to play again?";
+});
+
 //generating a random number
 function getComputerChoice() {
   let choices = ["rock", "paper", "scissors"];
@@ -71,13 +96,6 @@ function selectedByComputer() {
   }
 }
 
-//removing hover effect when the game is over
-function stopHover(x, y, z) {
-  x.classList.add("noHover");
-  y.classList.add("noHover");
-  z.classList.add("noHover");
-}
-
 //takes place when one of the players reaches 5 points
 function endGame(player, computer) {
   stopHover(rock, paper, scissors);
@@ -104,21 +122,7 @@ function endGame(player, computer) {
 }
 
 //restoring everything back to the initial values for the playAgain function
-//by clicking
 
-//removes borders when the game is restarted
-function removeBorders(x, y, z) {
-  x.classList.remove("selected-by-computer", "selected-by-user");
-  y.classList.remove("selected-by-computer", "selected-by-user");
-  z.classList.remove("selected-by-computer", "selected-by-user");
-}
-
-//restoring hover effect when the game is restarted
-function addHover(x, y, z) {
-  x.classList.remove("noHover");
-  y.classList.remove("noHover");
-  z.classList.remove("noHover");
-}
 //resetting the game
 function reset() {
   playerPoints = 0;
@@ -143,31 +147,26 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-//switching languages - english will be default
+//removes borders when the game is restarted
+function removeBorders(x, y, z) {
+  x.classList.remove("selected-by-computer", "selected-by-user");
+  y.classList.remove("selected-by-computer", "selected-by-user");
+  z.classList.remove("selected-by-computer", "selected-by-user");
+}
 
-langRO.addEventListener("click", function () {
-  langRO.classList.add("activeButton");
-  langEN.classList.remove("activeButton");
+//removing hover effect when the game is over
+function stopHover(x, y, z) {
+  x.classList.add("noHover");
+  y.classList.add("noHover");
+  z.classList.add("noHover");
+}
 
-  header.innerText = "Foarfeca, hartie, piatra?";
-  para1.innerText =
-    "Cum merge jocul: vei duce o lupta impotriva campionului nostru - computerul.";
-  para2.innerText = "Primul care ajunge la 5 puncte, castiga lupta!";
-  result.innerText = "Rezultat:";
-  playAgain.innerText = "Vrei sa mai incerci o data?";
-});
-
-//english is the default language
-langEN.addEventListener("click", function () {
-  langEN.classList.add("activeButton");
-  langRO.classList.remove("activeButton");
-  header.innerText = "Rock, paper, scissors?";
-  para1.innerText =
-    "Here's how it works: you will play with our biggest fighter - a computer.";
-  para2.innerText = "The first one to gain 5 points wins.";
-  result.innerText = "Score:";
-  playAgain.innerText = "Would you like to play again?";
-});
+//restoring hover effect when the game is restarted
+function addHover(x, y, z) {
+  x.classList.remove("noHover");
+  y.classList.remove("noHover");
+  z.classList.remove("noHover");
+}
 
 //manipulation
 rock.addEventListener("click", function () {
@@ -182,8 +181,9 @@ rock.addEventListener("click", function () {
   }
 
   if (playerPoints < winningScore && computerPoints < winningScore) {
-    //applies a red border on the image selected by the user
+    //applies a red border on the choice selected by the user
     selectedByUser(rock, paper, scissors);
+    //applies a blue border on the choice selected by the computer
     selectedByComputer();
     clickSound.play();
     //without this if statement, the score will continue to go up past 5
@@ -322,21 +322,3 @@ scissors.addEventListener("click", function () {
     endGame(playerPoints, computerPoints);
   }
 });
-
-//inlocuit sirurile cu index matrice yes
-//chenar colorat pe alegerile jucatorului si al pc-ului YES
-// sa putem schimba limba in romana!
-
-//familiarizare cu jquery
-//ajax
-//calculator
-
-//javascript
-document.querySelector(".rock").addEventListener("click", function () {});
-//jquery
-$("button").click(function () {});
-
-/*
-intrebari:
-CUM SHCIMB DISPLAY CHOICE UL
-*/

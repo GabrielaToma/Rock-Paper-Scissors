@@ -50,11 +50,17 @@ function selectedByComputer() {
     rock.classList.remove("selected-by-computer", "selected-by-user");
     paper.classList.remove("selected-by-computer", "selected-by-user");
     scissors.classList.remove("selected-by-computer", "selected-by-user");
-  } else if (computerSelection == choices[0]) {
+  } else if (
+    computerSelection == choices[0] ||
+    computerSelection == choices[3]
+  ) {
     rock.classList.add("selected-by-computer");
     paper.classList.remove("selected-by-computer");
     scissors.classList.remove("selected-by-computer");
-  } else if (computerSelection == choices[1]) {
+  } else if (
+    computerSelection == choices[1] ||
+    computerSelection == choices[4]
+  ) {
     paper.classList.add("selected-by-computer");
     rock.classList.remove("selected-by-computer");
     scissors.classList.remove("selected-by-computer");
@@ -78,13 +84,20 @@ function endGame(player, computer) {
   if (langRO.classList.contains("activeButton")) {
     playAgain.innerText = "Vrei sa mai incerci o data?";
   }
-
   if (player > computer) {
-    displayChoice.innerText = "This match was yours! Congratulations!";
+    if (langRO.classList.contains("activeButton")) {
+      displayChoice.innerText = "Ai castigat! Felicitari!";
+    } else {
+      displayChoice.innerText = "This match was yours! Congratulations!";
+    }
     winSound.play();
     playAgain.classList.remove("hide");
   } else {
-    displayChoice.innerText = "Maybe next time :(";
+    if (langRO.classList.contains("activeButton")) {
+      displayChoice.innerText = "Poate data viitoare :(";
+    } else {
+      displayChoice.innerText = "Maybe next time :(";
+    }
     loseSound.play();
     playAgain.classList.remove("hide");
   }
@@ -106,7 +119,7 @@ function addHover(x, y, z) {
   y.classList.remove("noHover");
   z.classList.remove("noHover");
 }
-
+//resetting the game
 function reset() {
   playerPoints = 0;
   playerScore.innerText = playerPoints;
@@ -118,6 +131,7 @@ function reset() {
   addHover(rock, paper, scissors);
 }
 
+//by click
 playAgain.addEventListener("click", reset);
 
 //by pressing down the enter key
@@ -147,26 +161,23 @@ langRO.addEventListener("click", function () {
 langEN.addEventListener("click", function () {
   langEN.classList.add("activeButton");
   langRO.classList.remove("activeButton");
-
   header.innerText = "Rock, paper, scissors?";
   para1.innerText =
     "Here's how it works: you will play with our biggest fighter - a computer.";
   para2.innerText = "The first one to gain 5 points wins.";
   result.innerText = "Score:";
+  playAgain.innerText = "Would you like to play again?";
 });
 
 //manipulation
 rock.addEventListener("click", function () {
-  /* if (langRO.classList.contains("activeButton")) {
+  computerSelection = getComputerChoice();
+  //user's choice and the text displayed based on the selected language
+  if (langRO.classList.contains("activeButton")) {
     playerSelection = choices[3];
+    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}.`;
   } else {
     playerSelection = choices[0];
-  } //asa prezentam alegerea user-ului in functie de limba aleasa*/
-  playerSelection = choices[0];
-  computerSelection = getComputerChoice();
-  if (langRO.classList.contains("activeButton")) {
-    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}. `;
-  } else {
     displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
   }
 
@@ -174,19 +185,36 @@ rock.addEventListener("click", function () {
     //applies a red border on the image selected by the user
     selectedByUser(rock, paper, scissors);
     selectedByComputer();
-
     clickSound.play();
     //without this if statement, the score will continue to go up past 5
-    if (computerSelection == choices[0]) {
-      displayChoice.innerText += " It's a tie!";
-    } else if (computerSelection == choices[1]) {
+    if (computerSelection == choices[0] || computerSelection == choices[3]) {
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Egalitate!";
+      } else {
+        displayChoice.innerText += " It's a tie!";
+      }
+    } else if (
+      computerSelection == choices[1] ||
+      computerSelection == choices[4]
+    ) {
       computerPoints++;
-      displayChoice.innerText += " You lose!";
       computerScore.innerText = computerPoints;
-    } else {
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Ai pierdut!";
+      } else {
+        displayChoice.innerText += " You lose!";
+      }
+    } else if (
+      computerSelection == choices[2] ||
+      computerSelection == choices[5]
+    ) {
       playerPoints++;
-      displayChoice.innerText += " You win!";
       playerScore.innerText = playerPoints;
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Ai castigat!";
+      } else {
+        displayChoice.innerText += " You win!";
+      }
     }
   }
   //when one of the players reaches 5 points, the game ends
@@ -196,25 +224,48 @@ rock.addEventListener("click", function () {
 });
 
 paper.addEventListener("click", function () {
-  playerSelection = choices[1];
   computerSelection = getComputerChoice();
-  displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
+  if (langRO.classList.contains("activeButton")) {
+    playerSelection = choices[4];
+    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}. `;
+  } else {
+    playerSelection = choices[1];
+    displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
+  }
 
   if (playerPoints < winningScore && computerPoints < winningScore) {
     selectedByUser(paper, rock, scissors);
     selectedByComputer();
 
     clickSound.play();
-    if (computerSelection == choices[0]) {
+    if (computerSelection == choices[0] || computerSelection == choices[3]) {
       playerPoints++;
-      displayChoice.innerText += " You win!";
       playerScore.innerText = playerPoints;
-    } else if (computerSelection == choices[2]) {
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Ai castigat!";
+      } else {
+        displayChoice.innerText += " You win!";
+      }
+    } else if (
+      computerSelection == choices[2] ||
+      computerSelection == choices[5]
+    ) {
       computerPoints++;
-      displayChoice.innerText += " You lose!";
       computerScore.innerText = computerPoints;
-    } else {
-      displayChoice.innerText += " It's a tie!";
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Ai pierdut!";
+      } else {
+        displayChoice.innerText += " You lose!";
+      }
+    } else if (
+      computerSelection == choices[1] ||
+      computerSelection == choices[4]
+    ) {
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Egalitate!";
+      } else {
+        displayChoice.innerText += " It's a tie!";
+      }
     }
   }
   if (playerPoints == winningScore || computerPoints == winningScore) {
@@ -223,25 +274,48 @@ paper.addEventListener("click", function () {
 });
 
 scissors.addEventListener("click", function () {
-  playerSelection = choices[2];
   computerSelection = getComputerChoice();
-  displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
+  if (langRO.classList.contains("activeButton")) {
+    playerSelection = choices[5];
+    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}.`;
+  } else {
+    playerSelection = choices[2];
+    displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
+  }
 
   if (playerPoints < winningScore && computerPoints < winningScore) {
     selectedByUser(scissors, rock, paper);
     selectedByComputer();
 
     clickSound.play();
-    if (computerSelection == choices[2]) {
-      displayChoice.innerText += " It's a tie!";
-    } else if (computerSelection == choices[0]) {
+    if (computerSelection == choices[2] || computerSelection == choices[5]) {
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Egalitate!";
+      } else {
+        displayChoice.innerText += " It's a tie!";
+      }
+    } else if (
+      computerSelection == choices[0] ||
+      computerSelection == choices[3]
+    ) {
       computerPoints++;
-      displayChoice.innerText += " You lose!";
       computerScore.innerText = computerPoints;
-    } else {
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Ai pierdut!";
+      } else {
+        displayChoice.innerText += " You lose!";
+      }
+    } else if (
+      computerSelection == choices[1] ||
+      computerSelection == choices[4]
+    ) {
       playerPoints++;
-      displayChoice.innerText += " You win!";
       playerScore.innerText = playerPoints;
+      if (langRO.classList.contains("activeButton")) {
+        displayChoice.innerText += " Ai castigat!";
+      } else {
+        displayChoice.innerText += " You win!";
+      }
     }
   }
   if (playerPoints == winningScore || computerPoints == winningScore) {
@@ -264,9 +338,5 @@ $("button").click(function () {});
 
 /*
 intrebari:
-- cum pot avea double border in caz de egalitate
--cum pot traduce displayChoice avand in vedere ca este un paragraf dinamic? as putea umple tot codul
-cu if/else statement-uri daaar suna a super complicatie
-- would you like to play again sa mearga si cu enter
-- sa poti naviga printre butoane cu sageti?
+CUM SHCIMB DISPLAY CHOICE UL
 */

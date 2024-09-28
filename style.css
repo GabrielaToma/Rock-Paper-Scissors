@@ -92,9 +92,15 @@ body {
   border-bottom-right-radius: 6px;
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
 h1 {
-  display: inline-block; /*altfel vine peste buton si nu merge hover-ul*/
-  margin-left: 100px;
   text-align: center;
   animation: fadeInAnimation ease 4s;
   animation-iteration-count: 1;
@@ -117,8 +123,8 @@ h1 {
   justify-content: center;
   gap: 100px;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 30px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .choice img {
@@ -161,7 +167,6 @@ img.selected-by-computer {
   border-radius: 5px;
   border: 1px solid gray;
   box-shadow: gray 0 2px 15px;
-
   font-weight: bold;
   cursor: pointer;
 }
@@ -194,14 +199,9 @@ img.selected-by-computer {
 }
 
 /*media queries*/
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 720px) {
   .choice {
     flex-direction: column;
     gap: 20px;
-  }
-
-  .choice img {
-    width: 130px;
-    height: 130px;
   }
 }

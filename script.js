@@ -1,8 +1,8 @@
 console.log("Hello World!");
-
 //declaring variables
 let choices = ["rock", "paper", "scissors", "piatra", "hartie", "foarfeca"]; //adaug variantele in romana care vor fi alese daca langRO contine clasa activeButton
 let playerSelection = "";
+let computerSelection = "";
 let playAgain = document.querySelector(".playAgain");
 let winningScore = 5;
 //sounds
@@ -18,7 +18,7 @@ let playerScore = document.querySelector(".scorePointsUser");
 let computerScore = document.querySelector(".scorePointsComputer");
 let computerPoints = 0;
 let playerPoints = 0;
-let displayChoice = document.querySelector(".displayChoice"); //displays the choices of both players
+let displayChoice = document.querySelector(".displayChoice"); //displays the choices of both players and announces the final result
 //languages
 let langRO = document.querySelector(".ro-lang");
 let langEN = document.querySelector(".en-lang");
@@ -32,13 +32,44 @@ let result = document.querySelector(".result");
 langRO.addEventListener("click", function () {
   langRO.classList.add("activeButton");
   langEN.classList.remove("activeButton");
-
   header.innerText = "Foarfeca, hartie, piatra?";
   para1.innerText =
     "Cum merge jocul: vei duce o lupta impotriva campionului nostru - computerul.";
   para2.innerText = "Primul care ajunge la 5 puncte, castiga lupta!";
   result.innerText = "Rezultat:";
   playAgain.innerText = "Vrei sa mai incerci o data?";
+  //display choice text for winning/losing
+  if (displayChoice.innerText === "Maybe next time :(") {
+    displayChoice.innerText = "Poate data viitoare :(";
+  } else if (
+    displayChoice.innerText === "This match was yours! Congratulations!"
+  ) {
+    displayChoice.innerText = "Ai castigat! Felicitari!";
+  } else if (displayChoice.innerText === "It's a tie!") {
+    displayChoice.innerText = "Egalitate!";
+  } else if (
+    displayChoice.innerText ===
+    `You chose ${playerSelection}. The computer chose ${computerSelection}.`
+  ) {
+    //display choice text for player selection
+    if (playerSelection === choices[0]) {
+      playerSelection = choices[3];
+    } else if (playerSelection === choices[1]) {
+      playerSelection = choices[4];
+    } else if (playerSelection === choices[2]) {
+      playerSelection = choices[5];
+    }
+    //display choice text for computer selection
+    if (computerSelection === "rock") {
+      computerSelection = "piatra";
+    } else if (computerSelection === "paper") {
+      computerSelection = "hartie";
+    } else if (computerSelection === "scissors") {
+      computerSelection = "foarfeca";
+    }
+    //translate text
+    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}.`;
+  }
 });
 
 langEN.addEventListener("click", function () {
@@ -50,6 +81,36 @@ langEN.addEventListener("click", function () {
   para2.innerText = "The first one to gain 5 points wins.";
   result.innerText = "Score:";
   playAgain.innerText = "Would you like to play again?";
+  //display choice text for winning/losing
+  if (displayChoice.innerText === "Poate data viitoare :(") {
+    displayChoice.innerText = "Maybe next time :(";
+  } else if (displayChoice.innerText === "Ai castigat! Felicitari!") {
+    displayChoice.innerText = "This match was yours! Congratulations!";
+  } else if (displayChoice.innerText === "Egalitate!") {
+    displayChoice.innerText = "It's a tie!";
+  } else if (
+    displayChoice.innerText ===
+    `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}.`
+  ) {
+    //display choice text for player selection
+    if (playerSelection === choices[3]) {
+      playerSelection = choices[0];
+    } else if (playerSelection === choices[4]) {
+      playerSelection = choices[1];
+    } else if (playerSelection === choices[5]) {
+      playerSelection = choices[2];
+    }
+    //display choice text for computer selection
+    if (computerSelection === "piatra") {
+      computerSelection = "rock";
+    } else if (computerSelection === "hartie") {
+      computerSelection = "paper";
+    } else if (computerSelection === "foarfeca") {
+      computerSelection = "scissors";
+    }
+    //translate text
+    displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
+  }
 });
 
 //generating a random number
@@ -58,6 +119,7 @@ function getComputerChoice() {
   if (langRO.classList.contains("activeButton")) {
     choices = ["piatra", "hartie", "foarfeca"];
   }
+  console.log(choices);
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
@@ -189,9 +251,9 @@ rock.addEventListener("click", function () {
     //without this if statement, the score will continue to go up past 5
     if (computerSelection == choices[0] || computerSelection == choices[3]) {
       if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Egalitate!";
+        displayChoice.innerText = "Egalitate!";
       } else {
-        displayChoice.innerText += " It's a tie!";
+        displayChoice.innerText = "It's a tie!";
       }
     } else if (
       computerSelection == choices[1] ||
@@ -199,22 +261,12 @@ rock.addEventListener("click", function () {
     ) {
       computerPoints++;
       computerScore.innerText = computerPoints;
-      if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Ai pierdut!";
-      } else {
-        displayChoice.innerText += " You lose!";
-      }
     } else if (
       computerSelection == choices[2] ||
       computerSelection == choices[5]
     ) {
       playerPoints++;
       playerScore.innerText = playerPoints;
-      if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Ai castigat!";
-      } else {
-        displayChoice.innerText += " You win!";
-      }
     }
   }
   //when one of the players reaches 5 points, the game ends
@@ -227,7 +279,7 @@ paper.addEventListener("click", function () {
   computerSelection = getComputerChoice();
   if (langRO.classList.contains("activeButton")) {
     playerSelection = choices[4];
-    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}. `;
+    displayChoice.innerText = `Ai ales ${playerSelection}. Computerul a ales ${computerSelection}.`;
   } else {
     playerSelection = choices[1];
     displayChoice.innerText = `You chose ${playerSelection}. The computer chose ${computerSelection}.`;
@@ -241,30 +293,20 @@ paper.addEventListener("click", function () {
     if (computerSelection == choices[0] || computerSelection == choices[3]) {
       playerPoints++;
       playerScore.innerText = playerPoints;
-      if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Ai castigat!";
-      } else {
-        displayChoice.innerText += " You win!";
-      }
     } else if (
       computerSelection == choices[2] ||
       computerSelection == choices[5]
     ) {
       computerPoints++;
       computerScore.innerText = computerPoints;
-      if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Ai pierdut!";
-      } else {
-        displayChoice.innerText += " You lose!";
-      }
     } else if (
       computerSelection == choices[1] ||
       computerSelection == choices[4]
     ) {
       if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Egalitate!";
+        displayChoice.innerText = "Egalitate!";
       } else {
-        displayChoice.innerText += " It's a tie!";
+        displayChoice.innerText = "It's a tie!";
       }
     }
   }
@@ -290,9 +332,9 @@ scissors.addEventListener("click", function () {
     clickSound.play();
     if (computerSelection == choices[2] || computerSelection == choices[5]) {
       if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Egalitate!";
+        displayChoice.innerText = "Egalitate!";
       } else {
-        displayChoice.innerText += " It's a tie!";
+        displayChoice.innerText = "It's a tie!";
       }
     } else if (
       computerSelection == choices[0] ||
@@ -300,22 +342,12 @@ scissors.addEventListener("click", function () {
     ) {
       computerPoints++;
       computerScore.innerText = computerPoints;
-      if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Ai pierdut!";
-      } else {
-        displayChoice.innerText += " You lose!";
-      }
     } else if (
       computerSelection == choices[1] ||
       computerSelection == choices[4]
     ) {
       playerPoints++;
       playerScore.innerText = playerPoints;
-      if (langRO.classList.contains("activeButton")) {
-        displayChoice.innerText += " Ai castigat!";
-      } else {
-        displayChoice.innerText += " You win!";
-      }
     }
   }
   if (playerPoints == winningScore || computerPoints == winningScore) {
